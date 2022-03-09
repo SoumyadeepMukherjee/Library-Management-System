@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -79,4 +79,19 @@ public class StudentController {
         studentRepository.deleteById(id);
     }
 
+    @GetMapping("/getByUserNameAndPassword")
+    public Student getByUsernameAndPassword(@RequestParam String name, @RequestParam String password) {
+        Student stu = null;
+        System.out.println("Query with user name " + name + "and password " + password);
+        // Student persistentStudent= studentRepository.findByUserName(name);
+        // System.out.println("Query result :"+persistentStudent.getId());
+        Optional<Student> persistentStudent = studentRepository.findByUsernameAndPassword(name, password);
+
+        if (persistentStudent.isPresent()) {
+            System.out.println("Query Result:" + persistentStudent.get().getId());
+            return persistentStudent.get();
+        }
+
+        return stu;
+    }
 }
